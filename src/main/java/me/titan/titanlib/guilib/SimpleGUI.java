@@ -178,16 +178,21 @@ public class SimpleGUI implements InventoryHolder {
 	@Override
 	public Inventory getInventory(){
 
-		if(inv != null) return inv;
-		inv = Bukkit.createInventory(this,size, Common.colorize(title));
+		if (inv != null) return inv;
+		inv = Bukkit.createInventory(this, size, Common.colorize(title));
 
-		for(Map.Entry<Integer, ItemStack> en : items.entrySet()){
-			inv.setItem(en.getKey(),en.getValue());
+		for (Map.Entry<Integer, ItemStack> en : items.entrySet()) {
+			inv.setItem(en.getKey(), en.getValue());
 
 		}
 		return inv;
 	}
 
+	public void end(Player p, String msg) {
+		p.closeInventory();
+		Common.tell(p, msg);
+
+	}
 
 
 }
