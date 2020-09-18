@@ -4,6 +4,7 @@ import me.titan.titanlib.Common;
 import me.titan.titanlib.TitanLib;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -50,22 +51,25 @@ public class ItemBuilder {
 		b.setPages(Common.colorize(Arrays.asList(pages)));
 		b.setAuthor(Common.colorize(author));
 		b.setTitle(Common.colorize(title));
-		current.setItemMeta(b) ;
+		current.setItemMeta(b);
 		return this;
 	}
-	public ItemBuilder openBook(Player p){
+
+	public ItemBuilder openBook(Player p) {
 		p.openBook(current);
 		return this;
 	}
-	public static ItemBuilder create(Material material, int amount, short damage){
 
-		ItemStack item = new ItemStack(material, amount, (short) damage);
+	public static ItemBuilder create(Material material, int amount, short damage) {
+
+		ItemStack item = new ItemStack(material, amount, damage);
 		return new ItemBuilder(item);
 
 	}
-	public static ItemBuilder create(Material material, int amount, byte data){
 
-		ItemStack item = new ItemStack(material, amount, (short) 0,data);
+	public static ItemBuilder create(Material material, int amount, byte data) {
+
+		ItemStack item = new ItemStack(material, amount, (short) 0, data);
 		return new ItemBuilder(item);
 	}
 	public static ItemBuilder create(Material material, int amount, short damage, byte data){
@@ -75,29 +79,39 @@ public class ItemBuilder {
 
 	}
 
-	public static ItemBuilder create(Material material, byte data){
+	public static ItemBuilder create(Material material, byte data) {
 
-		ItemStack item = new ItemStack(material, 1, (short) 0,data);
+		ItemStack item = new ItemStack(material, 1, (short) 0, data);
 		return new ItemBuilder(item);
 
 	}
-	public static ItemBuilder create(ItemStack item){
+
+	public static ItemBuilder create(ItemStack item) {
 
 		return new ItemBuilder(item);
 
 	}
-	public ItemBuilder data(byte data){
+
+	public ItemBuilder color(DyeColor color) {
+		data(color.getWoolData());
+
+		return this;
+	}
+
+	public ItemBuilder data(byte data) {
 		current.setData(current.getType().getNewData(data));
 
 		return this;
 	}
-	public ItemBuilder glow(){
 
-		current.addEnchantment(TitanLib.getInstance().glowEnchant,1);
+	public ItemBuilder glow() {
+
+		current.addEnchantment(TitanLib.getInstance().glowEnchant, 1);
 		return this;
 
 	}
-	public ItemBuilder damage(short damage){
+
+	public ItemBuilder damage(short damage) {
 		current.setDurability(damage);
 
 		return this;
