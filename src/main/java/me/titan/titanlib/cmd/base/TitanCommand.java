@@ -1,6 +1,7 @@
 package me.titan.titanlib.cmd.base;
 
 import me.titan.titanlib.Common;
+import me.titan.titanlib.TitanLib;
 import me.titan.titanlib.util.Replacer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
@@ -11,15 +12,16 @@ import java.util.*;
 
 public abstract class TitanCommand extends Command {
 
-	 private CommandRequirements requirements = new CommandRequirements();
+	private final CommandRequirements requirements = new CommandRequirements();
 
-	 public static String[] EMPTY_STRING_ARRAY = new String[0];
+	public static String[] EMPTY_STRING_ARRAY = new String[0];
 
-	 List<TitanSubCommand> actualSubCommands = new ArrayList<>();
-	 Map<String, TitanSubCommand> subCommands = new HashMap<>();
+	List<TitanSubCommand> actualSubCommands = new ArrayList<>();
+	Map<String, TitanSubCommand> subCommands = new HashMap<>();
 
-	 boolean changed;
-	 String cachedUsage;
+	boolean changed;
+	String cachedUsage;
+
 	protected TitanCommand(String name) {
 		super(name);
 
@@ -98,9 +100,8 @@ public abstract class TitanCommand extends Command {
 			}else if(subCheckResult.notConsole){
 				Common.tell(sender, Messages.Must_Be_Console.get());
 				return false;
-			}else
-			if(subCheckResult.argsLength){
-				Common.tell(sender,cmd.getUsage());
+			} else if (subCheckResult.argsLength) {
+				Common.tell(sender, cmd.getUsage());
 				return false;
 			}
 			cmd.onCommand(con);
@@ -108,13 +109,21 @@ public abstract class TitanCommand extends Command {
 		changed = false;
 		return false;
 	}
-	public void notifyChange(){
+
+	public void register() {
+
+		TitanLib.getInstance().getCommandsRegistrar().registerCommand(this);
+	}
+
+	public void notifyChange() {
 		changed = true;
 	}
-	public final void aliases(String... ali){
+
+	public final void aliases(String... ali) {
 		getAliases().addAll(Arrays.asList(ali));
 	}
-	public final void addOptionalArgs(String... arg){
+
+	public final void addOptionalArgs(String... arg) {
 		requirements.optionalArgs.addAll(Arrays.asList(arg));
 		notifyChange();
 	}
