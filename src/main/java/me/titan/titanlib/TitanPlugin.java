@@ -10,6 +10,7 @@ public interface TitanPlugin {
 	List<SimpleConfig> configs = new ArrayList<>();
 
 	default void reload() {
+		onPreReload();
 		if (configs.isEmpty()) {
 			for (Field f : getClass().getDeclaredFields()) {
 
@@ -31,7 +32,10 @@ public interface TitanPlugin {
 			}
 			c.reload();
 		}
+		onReload();
 	}
+
+	void onPreReload();
 
 	void onReload();
 
